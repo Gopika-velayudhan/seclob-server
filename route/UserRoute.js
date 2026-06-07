@@ -4,7 +4,8 @@ import {
   userRegister,
   userLogin,
   addCategory,
-  addSubCategory
+  addSubCategory,
+  getCategories,getAllSubCategories
  
 } from '../controller/UserController.js';
 
@@ -18,6 +19,9 @@ Userrouter
   .post("/login", userLogin)
 .post("/category",addCategory)
 .post("/subcategory",addSubCategory)
+.get("/category",getCategories)
+.get("/subcategorys",getAllSubCategories)
+
   
 
 

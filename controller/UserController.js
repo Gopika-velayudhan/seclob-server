@@ -123,6 +123,20 @@ export const addCategory = async (req, res, next) => {
     next(error);
   }
 };
+export const getCategories = async (req, res, next) => {
+  try {
+    const categories = await Category.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      status: "success",
+      categories,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const addSubCategory = async (req, res, next) => {
   const { value, error } =
@@ -169,6 +183,29 @@ export const addSubCategory = async (req, res, next) => {
       subCategory,
     });
   } catch (error) {
+    next(error);
+  }
+};
+export const getAllSubCategories = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    console.log("getAllSubCategories called");
+
+    const subCategories =
+      await SubCategory.find()
+        .populate("categoryId", "name");
+
+    console.log(subCategories);
+
+    res.status(200).json({
+      status: "success",
+      subCategories,
+    });
+  } catch (error) {
+    console.log(error); 
     next(error);
   }
 };
