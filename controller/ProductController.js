@@ -5,31 +5,18 @@ import { joiUpdateProductSchema } from "../model/ValidationSchema.js";
 import SubCategory from "../model/SubCategory.js";
 export const addProduct = async (req, res, next) => {
   try {
-  
-
-    
     if (req.body.variants) {
       req.body.variants = JSON.parse(req.body.variants);
     }
 
-    
-
     const { value, error } = joiProductSchema.validate(req.body);
 
     if (error) {
-      return next(
-        trycatchmidddleware(400, error.details[0].message)
-      );
+      return next(trycatchmidddleware(400, error.details[0].message));
     }
 
-    const {
-      title,
-      description,
-      category,
-      subCategory,
-      variants,
-      images,
-    } = value;
+    const { title, description, category, subCategory, variants, images } =
+      value;
 
     const existingProduct = await Product.findOne({ title });
 
@@ -74,7 +61,6 @@ export const getAllProducts = async (req, res, next) => {
   }
 };
 
-
 export const getPproducts = async (req, res, next) => {
   try {
     const page = Number(req.query.page) || 1;
@@ -84,7 +70,6 @@ export const getPproducts = async (req, res, next) => {
 
     const query = {};
 
-    
     if (req.query.subCategory) {
       const subCategoryDoc = await SubCategory.findOne({
         name: {
@@ -141,35 +126,25 @@ export const getProductById = async (req, res, next) => {
   }
 };
 
-
 export const updateProduct = async (req, res, next) => {
   try {
     if (req.body.variants) {
       req.body.variants = JSON.parse(req.body.variants);
     }
 
-    const { value, error } =
-      joiUpdateProductSchema.validate(req.body);
+    const { value, error } = joiUpdateProductSchema.validate(req.body);
 
     if (error) {
-      return next(
-        trycatchmidddleware(400, error.details[0].message)
-      );
+      return next(trycatchmidddleware(400, error.details[0].message));
     }
 
-    const product = await Product.findByIdAndUpdate(
-  req.params.id,
-  value,
-  {
-    returnDocument: "after",
-    runValidators: true,
-  }
-);
+    const product = await Product.findByIdAndUpdate(req.params.id, value, {
+      returnDocument: "after",
+      runValidators: true,
+    });
 
     if (!product) {
-      return next(
-        trycatchmidddleware(404, "Product not found")
-      );
+      return next(trycatchmidddleware(404, "Product not found"));
     }
 
     res.status(200).json({

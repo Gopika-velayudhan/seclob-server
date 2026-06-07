@@ -198,7 +198,7 @@ export const getAllSubCategories = async (
       await SubCategory.find()
         .populate("categoryId", "name");
 
-    console.log(subCategories);
+    
 
     res.status(200).json({
       status: "success",
